@@ -101,8 +101,6 @@ function inbox_loader(mailbox) {
 
       newItem.appendChild(itemRow);
       document.querySelector('#emails-view').appendChild(newItem);
-      
-      console.log(result[x])
     }
   })
 }
