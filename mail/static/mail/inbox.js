@@ -33,6 +33,7 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  inbox_loader(mailbox);
 }
 
 function send_email() {
@@ -57,4 +58,51 @@ function send_email() {
     load_mailbox('inbox');
   });
   return false;
+}
+
+function inbox_loader(mailbox) {
+  fetch(`emails/${mailbox}`)
+  .then(response => response.json())
+  .then(result => {
+    
+    /*
+    <a class="list-group-item list-group-item-action">
+      <div class="row">
+        <div class="col-6"></div>
+        <div class="col-6"></div>
+      </div>
+    </a>
+    */
+
+    // Show all emails
+    for (let x = 0; x < result.length; x++) {
+
+      // Email block
+      const newItem = document.createElement('a');
+      newItem.className = "list-group-item list-group-item-action";
+
+      // Email row
+      const itemRow = document.createElement('div');
+      itemRow.className = "row";
+
+      // Sender text
+      const senderDiv = document.createElement('div');
+      senderDiv.className = "col-6";
+      senderDiv.innerHTML = result[x].sender; 
+
+      // Subject text
+      const subjectDiv = document.createElement('div');
+      subjectDiv.className = "col-6";
+      subjectDiv.innerHTML = result[x].sender; 
+
+      // Append childs
+      itemRow.appendChild(senderDiv);
+      itemRow.appendChild(subjectDiv);
+
+      newItem.appendChild(itemRow);
+      document.querySelector('#emails-view').appendChild(newItem);
+      
+      console.log(result[x])
+    }
+  })
 }
