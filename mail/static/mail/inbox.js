@@ -18,6 +18,7 @@ function compose_email() {
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'block';
+  document.querySelector('#email-display').style.display = 'none';
 
   // Clear out composition fields
   document.querySelector('#compose-recipients').value = '';
@@ -30,6 +31,7 @@ function load_mailbox(mailbox) {
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
+  document.querySelector('#email-display').style.display = 'none';
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
@@ -103,7 +105,33 @@ function inbox_loader(mailbox) {
       itemRow.appendChild(subjectDiv);
 
       newItem.appendChild(itemRow);
+
+      // Add function
+      newItem.addEventListener('click', () => {
+        view_email(result[x].id)
+      })
+
       document.querySelector('#emails-view').appendChild(newItem);
     }
+  })
+}
+
+function view_email(email_id) {
+  fetch(`/emails/${email_id}`,{
+    method: 'GET',
+  })
+  .then(response => response.json())
+  .then(result => {
+
+    document.querySelector('#email-display-subject').innerHTML = result.subject;
+    document.querySelector('#email-display-sender').innerHTML = "From " + result.sender;
+    document.querySelector('#email-display-recipients').innerHTML = "To: " + result.recipients;
+    document.querySelector('#email-display-timestamp').innerHTML = result.timestamp;
+    document.querySelector('#email-display-body').innerHTML = result.body;
+
+    // Show compose view and hide other views
+    document.querySelector('#emails-view').style.display = 'none';
+    document.querySelector('#compose-view').style.display = 'none';
+    document.querySelector('#email-display').style.display = 'block';
   })
 }
