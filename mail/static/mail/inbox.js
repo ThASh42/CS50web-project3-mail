@@ -40,7 +40,7 @@ function send_email() {
   
   // Form values
   const form_recipients = document.querySelector('#compose-recipients').value;
-  const form_subject = document.querySelector('#compose-recipients').value;
+  const form_subject = document.querySelector('#compose-subject').value;
   const form_body = document.querySelector('#compose-body').value;
 
   fetch('/emails', {
@@ -93,7 +93,7 @@ function inbox_loader(mailbox) {
       // Subject text
       const subjectDiv = document.createElement('div');
       subjectDiv.className = "col-6";
-      subjectDiv.innerHTML = result[x].sender; 
+      subjectDiv.innerHTML = result[x].subject; 
 
       // Append childs
       itemRow.appendChild(senderDiv);
