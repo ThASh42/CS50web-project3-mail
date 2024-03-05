@@ -82,7 +82,7 @@ function inbox_loader(mailbox) {
       // Email block
       const newItem = document.createElement('a');
       newItem.className = "list-group-item list-group-item-action";
-      if (result[x].read = false && mailbox == "inbox") {
+      if (result[x].read == true && mailbox == "inbox") {
         newItem.classList.add("read-background");
       }
 
