@@ -64,7 +64,7 @@ function inbox_loader(mailbox) {
   fetch(`emails/${mailbox}`)
   .then(response => response.json())
   .then(result => {
-    
+
     /*
     <a class="list-group-item list-group-item-action">
       <div class="row">
@@ -80,6 +80,9 @@ function inbox_loader(mailbox) {
       // Email block
       const newItem = document.createElement('a');
       newItem.className = "list-group-item list-group-item-action";
+      if (result[x].read = false && mailbox == "inbox") {
+        newItem.classList.add("read-background");
+      }
 
       // Email row
       const itemRow = document.createElement('div');
