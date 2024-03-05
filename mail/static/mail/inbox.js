@@ -133,5 +133,16 @@ function view_email(email_id) {
     document.querySelector('#emails-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'none';
     document.querySelector('#email-display').style.display = 'block';
+    
+    // Update email
+    if (!result.read) 
+    {
+      fetch(`/emails/${email_id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          read: true,
+        })
+      })
+    }
   })
 }
