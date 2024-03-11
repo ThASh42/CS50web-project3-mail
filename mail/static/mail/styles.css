@@ -1,8 +1,22 @@
+
+:root {
+    --list-group-bg-accent: rgb(232, 232, 232);
+}
+
 textarea {
     min-height: 400px;
 }
 
-
+/* Grey background of read emails */
 .read-background {
-    background-color: rgb(223, 223, 223);
+    background-color: var(--list-group-bg-accent);
+}
+
+/* *Bootstrap* */
+
+.list-group-item:hover {
+    background-color: color-mix(in srgb, white, var(--list-group-bg-accent));;
+}
+.list-group-item:active {
+    background-color: color-mix(in srgb, white 25%, var(--list-group-bg-accent));
 }
