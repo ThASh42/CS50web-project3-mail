@@ -67,51 +67,40 @@ function inbox_loader(mailbox) {
   .then(response => response.json())
   .then(result => {
 
-    /*
-    <a class="list-group-item list-group-item-action">
-      <div class="row">
-        <div class="col-6"></div>
-        <div class="col-6"></div>
-      </div>
-    </a>
-    */
-
     // Show all emails
     for (let x = 0; x < result.length; x++) {
 
       // Email block
-      const newItem = document.createElement('a');
-      newItem.className = "list-group-item list-group-item-action";
+      const newItem = document.createElement('div');
+      newItem.classList.add('list-group-item', 'list-group-item-action');
       if (result[x].read == true && mailbox == "inbox") {
         newItem.classList.add("read-background");
       }
 
-      // Email row
-      const itemRow = document.createElement('div');
-      itemRow.className = "row";
-
-      // Sender text
-      const senderDiv = document.createElement('div');
-      senderDiv.className = "col-6";
-      senderDiv.innerHTML = result[x].sender; 
-
-      // Subject text
-      const subjectDiv = document.createElement('div');
-      subjectDiv.className = "col-6";
-      subjectDiv.innerHTML = result[x].subject; 
-
-      // Append childs
-      itemRow.appendChild(senderDiv);
-      itemRow.appendChild(subjectDiv);
-
-      newItem.appendChild(itemRow);
+      // Append a child
+      document.querySelector('#emails-view').appendChild(newItem);
+      
+      // Create sender and subject divs:
+      newItem.innerHTML = `
+        <div class="row">
+          <div id="sender" class="col-6">${result[x].sender}</div>
+          <div id="subject" class="col-6">${result[x].subject}</div>
+        </div>
+      `
 
       // Add function
       newItem.addEventListener('click', () => {
         view_email(result[x].id)
       })
 
-      document.querySelector('#emails-view').appendChild(newItem);
+      /* Result: 
+      <a class="list-group-item list-group-item-action">
+        <div class="row">
+          <div id="sender" class="col-6"></div>
+          <div id="subject" class="col-6"></div>
+        </div>
+      </a>
+      */
     }
   })
 }
