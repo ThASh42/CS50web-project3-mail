@@ -80,11 +80,14 @@ function inbox_loader(mailbox) {
       // Append a child
       document.querySelector('#emails-view').appendChild(newItem);
       
-      // Create sender and subject divs:
+      // Create HTML content
       newItem.innerHTML = `
         <div class="row">
-          <div id="sender" class="col-6">${result[x].sender}</div>
-          <div id="subject" class="col-6">${result[x].subject}</div>
+          <div class="col-8 row">
+            <div id="sender" class="col-6">${result[x].sender}</div>
+            <div id="subject" class="col-6">${result[x].subject}</div>
+          </div>
+          <div id="subject" class="col-4 text-right">${result[x].timestamp}</div>
         </div>
       `
 
@@ -94,12 +97,15 @@ function inbox_loader(mailbox) {
       })
 
       /* Result: 
-      <a class="list-group-item list-group-item-action">
+      <div class="list-group-item list-group-item-action">
         <div class="row">
-          <div id="sender" class="col-6"></div>
-          <div id="subject" class="col-6"></div>
+          <div class="col-8 row">
+            <div id="sender" class="col-6">${result[x].sender}</div>
+            <div id="subject" class="col-6">${result[x].subject}</div>
+          </div>
+          <div id="subject" class="col-4 text-right">${result[x].timestamp}</div>
         </div>
-      </a>
+      </div>
       */
     }
   })
