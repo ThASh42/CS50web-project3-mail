@@ -90,7 +90,7 @@ function inbox_loader(mailbox) {
 
       // Add function
       newItem.addEventListener('click', () => {
-        view_email(result[x].id)
+        view_email(result[x].id, mailbox)
       })
 
       /* Result: 
@@ -105,12 +105,13 @@ function inbox_loader(mailbox) {
   })
 }
 
-function view_email(email_id) {
+function view_email(email_id, mailbox) {
   fetch(`/emails/${email_id}`,{
     method: 'GET',
   })
   .then(response => response.json())
   .then(result => {
+    console.log(result);
 
     document.querySelector('#email-display-subject').innerHTML = result.subject;
     document.querySelector('#email-display-sender').innerHTML = "From " + result.sender;
@@ -124,7 +125,7 @@ function view_email(email_id) {
     document.querySelector('#email-display').style.display = 'block';
     
     // Update email
-    if (!result.read) 
+    if (!result.read)
     {
       fetch(`/emails/${email_id}`, {
         method: 'PUT',
@@ -132,6 +133,31 @@ function view_email(email_id) {
           read: true,
         })
       })
+    }
+
+    // * Archive/Unarchive button
+    if (mailbox !== 'sent') {
+      // Create
+      const archiveButton = document.createElement('button');
+      archiveButton.innerHTML = result.archived ? "Unarchive" : "Archive";
+      
+      // Classes
+      archiveButton.className = "btn btn-primary";
+      
+      // Event Listener
+      archiveButton.addEventListener('click', () => {
+        fetch(`/emails/${email_id}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            archived: !result.archived,
+          }),
+        })
+        .then(() => {load_mailbox('inbox')});
+      });
+      
+      // Display
+      document.querySelector('#email-display-archive-button').innerHTML = '';
+      document.querySelector('#email-display-archive-button').append(archiveButton);
     }
   })
 }
