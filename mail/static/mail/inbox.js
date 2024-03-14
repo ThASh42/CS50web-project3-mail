@@ -142,6 +142,9 @@ function view_email(email_id, mailbox) {
     }
 
     // * Archive/Unarchive button
+    // Remove previous archive button
+    document.querySelector('#email-display-archive-button').innerHTML = '';
+
     if (mailbox !== 'sent') {
       // Create
       const archiveButton = document.createElement('button');
@@ -162,8 +165,7 @@ function view_email(email_id, mailbox) {
       });
       
       // Display
-      document.querySelector('#email-display-archive-button').innerHTML = '';
-      document.querySelector('#email-display-archive-button').append(archiveButton);
+      document.querySelector('#email-display-archive-button').appendChild(archiveButton);
     }
   })
 }
