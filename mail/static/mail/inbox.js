@@ -21,7 +21,7 @@ function compose_email(recipientsValue = '', subjectValue = '', bodyValue = '') 
   document.querySelector('#email-display').style.display = 'none';
 
   // Clear out composition fields
-  document.querySelector('#compose-recipients').value = recipientsValue ? recipientsValue : '';
+  document.querySelector('#compose-recipients').value = recipientsValue;
   document.querySelector('#compose-subject').value = subjectValue;
   document.querySelector('#compose-body').value = bodyValue;
 }
