@@ -167,5 +167,15 @@ function view_email(email_id, mailbox) {
       // Display
       document.querySelector('#email-display-archive-button').appendChild(archiveButton);
     }
+
+    // * Reply button
+    if (mailbox != 'sent') {
+
+      const replyButton = document.querySelector('#email-display-reply-button');
+      // Create button
+      replyButton.innerHTML = '<button class="btn btn-primary">Reply</button>';
+      // Add function
+      replyButton.addEventListener('click', compose_email);
+    }
   })
 }
