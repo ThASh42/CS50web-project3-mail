@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
   document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
-  document.querySelector('#compose').addEventListener('click', compose_email);
+  document.querySelector('#compose').addEventListener('click', () => compose_email());
 
   // Send new email
   document.querySelector("#compose-form").onsubmit = send_email;
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
   load_mailbox('inbox');
 });
 
-function compose_email() {
+function compose_email(recipientsValue = '', subjectValue = '', bodyValue = '') {
 
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
@@ -21,9 +21,9 @@ function compose_email() {
   document.querySelector('#email-display').style.display = 'none';
 
   // Clear out composition fields
-  document.querySelector('#compose-recipients').value = '';
-  document.querySelector('#compose-subject').value = '';
-  document.querySelector('#compose-body').value = '';
+  document.querySelector('#compose-recipients').value = recipientsValue ? recipientsValue : '';
+  document.querySelector('#compose-subject').value = subjectValue;
+  document.querySelector('#compose-body').value = bodyValue;
 }
 
 function load_mailbox(mailbox) {
@@ -169,13 +169,17 @@ function view_email(email_id, mailbox) {
     }
 
     // * Reply button
-    if (mailbox != 'sent') {
+    if (mailbox !== 'sent') {
 
       const replyButton = document.querySelector('#email-display-reply-button');
       // Create button
       replyButton.innerHTML = '<button class="btn btn-primary">Reply</button>';
       // Add function
-      replyButton.addEventListener('click', compose_email);
+      replyButton.addEventListener('click', () => compose_email(result.sender, 
+        `Re: ${ result.subject.replace('Re: ', '') }`, 
+        `On ${ result.timestamp } ${ result.sender } wrote: ${ result.body }`));
+    } else {
+      document.querySelector('#email-display-reply-button').innerHTML = '';
     }
   })
 }
